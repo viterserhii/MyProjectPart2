@@ -23,6 +23,7 @@ protected:
 
 public:
     virtual void Tick(float DeltaTime) override;
+    virtual void OnConstruction(const FTransform& Transform) override;
 
     // Sphere component for collision detection
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -31,6 +32,9 @@ public:
     // Static Mesh component to represent the checkpoint visually
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UStaticMeshComponent* MeshComponent;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    UMaterialInterface* BaseMaterial;
 
     // Paper Sprite component for 2D representation
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
@@ -55,4 +59,5 @@ public:
     // Scene component as a root component
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     USceneComponent* DefaultSceneRoot;
+
 };
