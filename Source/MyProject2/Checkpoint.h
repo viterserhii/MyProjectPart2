@@ -20,14 +20,13 @@ class MYPROJECT2_API ACheckpoint : public AActor
 public:
     ACheckpoint();
 
-protected:
-    virtual void BeginPlay() override;
-
-public:
     virtual void Tick(float DeltaTime) override;
     virtual void OnConstruction(const FTransform& Transform) override;
     UFUNCTION()
     void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+    UFUNCTION(BlueprintImplementableEvent, Category = "Checkpoint")
+    void UpdateSpawnTransform(const FTransform& NewSpawnTransform);
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     USphereComponent* CollisionComponent;
@@ -62,4 +61,8 @@ public:
     UPROPERTY(EditAnywhere, Category = "Sound")
     USoundCue* SoundToPlay;
 
+protected:
+    virtual void BeginPlay() override;
+
+public:
 };

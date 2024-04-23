@@ -77,6 +77,11 @@ void ACheckpoint::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
         AudioComponent->SetSound(SoundToPlay);
         AudioComponent->Play();
     }
+
+    if (OtherActor && OtherActor != this && OtherComp)
+    {
+        UpdateSpawnTransform(GetActorTransform());
+    }
 }
 
 
