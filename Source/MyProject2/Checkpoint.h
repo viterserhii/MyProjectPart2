@@ -6,6 +6,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/ArrowComponent.h"
 #include "Components/TextRenderComponent.h"
+#include "Components/AudioComponent.h"
+#include "Sound/SoundCue.h"
 #include "PaperSpriteComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Checkpoint.generated.h"
@@ -24,40 +26,40 @@ protected:
 public:
     virtual void Tick(float DeltaTime) override;
     virtual void OnConstruction(const FTransform& Transform) override;
+    UFUNCTION()
+    void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-    // Sphere component for collision detection
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     USphereComponent* CollisionComponent;
 
-    // Static Mesh component to represent the checkpoint visually
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UStaticMeshComponent* MeshComponent;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UMaterialInterface* BaseMaterial;
 
-    // Paper Sprite component for 2D representation
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UPaperSpriteComponent* SpriteComponent;
 
-    // Arrow component to indicate direction or orientation
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UArrowComponent* Arrow;
 
-    // Text Render component to display text information at the checkpoint
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UTextRenderComponent* TextComponent;
 
-    // Additional static mesh to represent other visual elements
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     UStaticMeshComponent* AdditionalMeshComponent;
 
-    // Dynamic Material Instance for runtime material changes
     UPROPERTY(BlueprintReadWrite, EditDefaultsOnly, Category = "Components")
     UMaterialInstanceDynamic* DynamicMaterialInstance;
 
-    // Scene component as a root component
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
     USceneComponent* DefaultSceneRoot;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+    UAudioComponent* AudioComponent; 
+
+    UPROPERTY(EditAnywhere, Category = "Sound")
+    USoundCue* SoundToPlay;
 
 };

@@ -1,15 +1,13 @@
-// Checkpoint.cpp
-
 #include "Checkpoint.h"
 
 ACheckpoint::ACheckpoint()
 {
-    // Initialize components
     DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
     RootComponent = DefaultSceneRoot;
 
     CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
     CollisionComponent->SetupAttachment(RootComponent);
+    CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnBeginOverlap);
 
     MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
     MeshComponent->SetupAttachment(RootComponent);
@@ -26,7 +24,10 @@ ACheckpoint::ACheckpoint()
     AdditionalMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("AdditionalMeshComponent"));
     AdditionalMeshComponent->SetupAttachment(RootComponent);
 
-    // Dynamic material instance (if needed, configure further in BeginPlay or elsewhere)
+    AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+    AudioComponent->SetupAttachment(RootComponent);
+    AudioComponent->bAutoActivate = false;
+
     DynamicMaterialInstance = CreateDefaultSubobject<UMaterialInstanceDynamic>(TEXT("DynamicMaterialInstance"));
 
     static ConstructorHelpers::FObjectFinder<UMaterialInterface> MaterialFinder(TEXT("MaterialInterface'/Game/Hour_of_Code/Materials/MI_Checkpoint.MI_Checkpoint'"));
@@ -64,9 +65,23 @@ void ACheckpoint::BeginPlay()
     }
 }
 
+void ACheckpoint::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    if (DynamicMaterialInstance)
+    {
+        DynamicMaterialInstance->SetVectorParameterValue(FName("Color"), FLinearColor::Red);
+    }
+
+    if (AudioComponent && SoundToPlay)
+    {
+        AudioComponent->SetSound(SoundToPlay);
+        AudioComponent->Play();
+    }
+}
+
+
 void ACheckpoint::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    // Update or gameplay logic here
 }
