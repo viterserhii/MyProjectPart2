@@ -2,15 +2,12 @@
 
 ACheckpoint::ACheckpoint()
 {
-    DefaultSceneRoot = CreateDefaultSubobject<USceneComponent>(TEXT("DefaultSceneRoot"));
-    RootComponent = DefaultSceneRoot;
+    MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
+    RootComponent = MeshComponent;
 
     CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("CollisionComponent"));
     CollisionComponent->SetupAttachment(RootComponent);
     CollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ACheckpoint::OnBeginOverlap);
-
-    MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComponent"));
-    MeshComponent->SetupAttachment(RootComponent);
 
     SpriteComponent = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComponent"));
     SpriteComponent->SetupAttachment(RootComponent);
@@ -67,6 +64,11 @@ void ACheckpoint::BeginPlay()
 
 void ACheckpoint::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+    if (OtherActor && OtherActor != this && OtherComp)
+    {
+        UpdateSpawnTransform(GetActorTransform());
+    }
+
     if (DynamicMaterialInstance)
     {
         DynamicMaterialInstance->SetVectorParameterValue(FName("Color"), FLinearColor::Red);
@@ -76,11 +78,6 @@ void ACheckpoint::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
     {
         AudioComponent->SetSound(SoundToPlay);
         AudioComponent->Play();
-    }
-
-    if (OtherActor && OtherActor != this && OtherComp)
-    {
-        UpdateSpawnTransform(GetActorTransform());
     }
 }
 
