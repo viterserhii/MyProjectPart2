@@ -13,7 +13,7 @@
 #include "Checkpoint.generated.h"
 
 UCLASS()
-class MYPROJECT2_API ACheckpoint : public AActor
+class PLATFORMER_API ACheckpoint : public AActor
 {
     GENERATED_BODY()
 

@@ -6,7 +6,7 @@
 #include "MeshMoverAlongSplineComponent.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class MYPROJECT2_API UMeshMoverAlongSplineComponent : public UStaticMeshComponent
+class PLATFORMER_API UMeshMoverAlongSplineComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
 
