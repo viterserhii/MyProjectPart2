@@ -3,13 +3,13 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class MyProject2Target : TargetRules
+public class PlatformerTarget : TargetRules
 {
-	public MyProject2Target(TargetInfo Target) : base(Target)
+	public PlatformerTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V4;
 
-		ExtraModuleNames.AddRange( new string[] { "MyProject2" } );
+		ExtraModuleNames.AddRange( new string[] { "Platformer" } );
 	}
 }
