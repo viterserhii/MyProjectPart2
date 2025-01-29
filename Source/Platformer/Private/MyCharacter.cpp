@@ -7,6 +7,11 @@ AMyCharacter::AMyCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
 
+    WalkSpeed = 450.0f;
+    SprintSpeed = 900.0f;
+
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+
     SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     SpringArm->SetupAttachment(RootComponent);
     SpringArm->TargetArmLength = 300.0f; 
@@ -40,6 +45,11 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
     PlayerInputComponent->BindAxis("Turn", this, &AMyCharacter::AddControllerYawInput); 
     PlayerInputComponent->BindAxis("LookUp", this, &AMyCharacter::AddControllerPitchInput);
+
+    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::JumpAction);
+
+    PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMyCharacter::StartSprinting);
+    PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMyCharacter::StopSprinting);
 }
 
 void AMyCharacter::MoveForward(float Value)
@@ -66,3 +76,22 @@ void AMyCharacter::MoveRight(float Value)
         AddMovementInput(Direction, Value);
     }
 }
+
+void AMyCharacter::JumpAction()
+{
+    if (!GetCharacterMovement()->IsFalling())
+    {
+        Jump();
+    }
+}
+
+void AMyCharacter::StartSprinting()
+{
+    GetCharacterMovement()->MaxWalkSpeed = SprintSpeed;
+}
+
+void AMyCharacter::StopSprinting()
+{
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+

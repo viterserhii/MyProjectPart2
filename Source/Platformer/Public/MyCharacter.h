@@ -21,10 +21,19 @@ public:
     virtual void Tick(float DeltaTime) override;
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
 private:
     void MoveForward(float Value);
-
     void MoveRight(float Value);
+    void JumpAction();
+    void StartSprinting();
+    void StopSprinting();
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+    float WalkSpeed;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+    float SprintSpeed;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera", meta = (AllowPrivateAccess = "true"))
     class USpringArmComponent* SpringArm;
